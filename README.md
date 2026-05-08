@@ -158,19 +158,19 @@ Place at `checkpoints/best.pth` before running `eval.py`.
 
 | Metric | Score |
 |--------|-------|
-| IoU | — |
-| Precision | — |
-| Recall | — |
-| F1 | — |
+| IoU | 0.2789 |
+| Precision | 0.3447 |
+| Recall | 0.5937 |
+| F1 | 0.4878|
 
 ### Test Split (provided 50%)
 
 | Metric | Score |
 |--------|-------|
-| IoU | — |
-| Precision | — |
-| Recall | — |
-| F1 | — |
+| IoU | 0.0399|
+| Precision | 0.1013 |
+| Recall | 0.0618|
+| F1 | 0.0767|
 
 *Results will be updated after training completes.*
 
