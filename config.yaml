@@ -1,0 +1,100 @@
+# ============================================================
+# GalaxEye Change Detection — Full Configuration
+# ============================================================
+seed: 42
+
+data:
+  root: "F://Project//galaxeye"
+  train_split: "train"
+  val_split: "val"
+  test_split: "test"
+  pre_event_dir: "pre-event"
+  post_event_dir: "post-event"
+  target_dir: "target"
+  image_size: 256
+  eo_bands: 3
+  sar_bands: 0
+
+label_remap:
+  0: 0
+  1: 0
+  2: 1
+  3: 1
+
+model:
+  name: "SiamUNet"
+  backbone: "efficientnet_b2"
+  pretrained: true
+  in_channels: 3
+  num_classes: 1
+  decoder_channels: [256, 128, 64, 32, 16]
+  dropout: 0.2
+
+training:
+  epochs: 10
+  batch_size: 4
+  num_workers: 0
+  pin_memory: false
+  grad_clip: 1.0
+  accumulation_steps: 2
+
+optimizer:
+  name: "AdamW"
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  betas: [0.9, 0.999]
+
+scheduler:
+  name: "CosineAnnealingLR"
+  T_max: 50
+  eta_min: 1.0e-6
+  warmup_epochs: 3
+
+loss:
+  name: "CombinedLoss"
+  focal_alpha: 0.85
+  focal_gamma: 2.0
+  dice_weight: 0.5
+  focal_weight: 0.5
+  pos_weight: 20.0
+
+augmentation:
+  train:
+    random_flip_h: true
+    random_flip_v: true
+    random_rotate_90: true
+    random_rotate_deg: 15
+    random_scale: [0.8, 1.2]
+    eo_color_jitter:
+      brightness: 0.2
+      contrast: 0.2
+      saturation: 0.1
+    gaussian_noise_sar: 0.01
+  val:
+    normalize_only: true
+
+normalization:
+  eo_mean: [0.485, 0.456, 0.406]
+  eo_std: [0.229, 0.224, 0.225]
+  sar_mean: [0.0]
+  sar_std: [1.0]
+
+evaluation:
+  threshold: 0.5
+  threshold_sweep: [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]
+  metrics: ["iou", "precision", "recall", "f1"]
+  target_class: 1
+
+checkpoint:
+  save_dir: "./checkpoints"
+  save_best_metric: "f1"
+  save_top_k: 3
+  resume: null
+
+logging:
+  log_dir: "./logs"
+  log_every_n_steps: 10
+  save_vis_every_n_epochs: 5
+  num_vis_samples: 8
+
+amp: false
