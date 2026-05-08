@@ -141,15 +141,6 @@ Outputs saved to `./eval_outputs/`:
 - `test_predictions.png` — qualitative grid (pre | post | ground truth | prediction | error map)
 - `test_confusion_matrix.png`
 - `test_metrics.json`
-
----
-
-## Model Weights
-
-Download: [best.pth — Google Drive](#) ← update after training
-
-Place at `checkpoints/best.pth` before running `eval.py`.
-
 ---
 
 ## Results
